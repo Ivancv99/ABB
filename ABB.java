@@ -144,7 +144,7 @@ public class ABB<T extends Comparable<T>> implements Conjunto<T> {
     public void eliminar(T elem){
         Nodo aux = buscar(raiz, elem);
         if (pertenece(elem)) {
-            if (aux.izq == null && aux.der == null) {
+            if (aux.izq == null && aux.der == null) {      // Eliminar si no tiene descendencia
                 if (aux.ant.valor.compareTo(aux.valor) > 0) {
                     aux.ant.der = null;
                 }
@@ -152,17 +152,17 @@ public class ABB<T extends Comparable<T>> implements Conjunto<T> {
                     aux.ant.izq = null;
                 }
             }
-            else if (aux.izq != null && aux.der == null) {
+            else if (aux.izq != null && aux.der == null) {    // Eliminar si tiene descendencia por izq
                 aux.valor = aux.izq.valor;
                 aux.izq = null;
             }
-            else if (aux.izq == null && aux.der != null) {
+            else if (aux.izq == null && aux.der != null) {    // Eliminar si tiene descendencia por der
                 aux.valor = aux.der.valor;
                 aux.der = null;
             }
-            else {
+            else {                                            // Eliminar si tiene doble descendencia
                 aux.valor = sucesor(aux).valor;
-                if (sucesor(aux).ant.izq != null && sucesor(aux).ant.der != null) {
+                if (sucesor(aux).ant.izq != null && sucesor(aux).ant.der != null) {  // Caso en el que el anterior al nodo a eliminar tiene doble descendencia
                     if (sucesor(aux).ant.izq.equals(sucesor(aux))) {
                         sucesor(aux).ant.izq = null;
                     }
@@ -170,11 +170,11 @@ public class ABB<T extends Comparable<T>> implements Conjunto<T> {
                         sucesor(aux).ant.der = null;
                     }
                 }
-                else if (sucesor(aux).ant.izq.equals(null)) {
+                else if (sucesor(aux).ant.izq.equals(null)) {     // Caso en el que el anterior al nodo a eliminar tiene como única descendencia al nodo a eliminar (ubicado como hijo derecho)
                     sucesor(aux).ant.der = null;
                 }
                 else {
-                    sucesor(aux).ant.izq = null;
+                    sucesor(aux).ant.izq = null;                // Caso en el que el anterior al nodo a eliminar tiene como única descendencia al nodo a eliminar (ubicado como hijo izquierdo)
                 }
             }
         }
